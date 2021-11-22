@@ -1,0 +1,18 @@
+name: delete-everything
+description: GitHub Action that deletes everything
+author: Roy Ashbrook
+
+on:
+  workflow_call:
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - id: files
+        uses: jitterbit/get-changed-files@v1
+      - uses: actions/checkout@v2
+      - uses: fregante/setup-git-user@v1
+      - run: for f in ${{steps.files.outputs.added_modified}}; do git rm $f; done;
+      - uses: stefanzweifel/git-auto-commit-action@v4
